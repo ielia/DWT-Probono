@@ -9,14 +9,23 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Some more WebDriver expected conditions not found in {@link org.openqa.selenium.support.ui.ExpectedConditions}.
+ */
 public class MoreExpectedConditions {
-    public MoreExpectedConditions() {
-    }
-
+    /**
+     * @see #anyElementToBeClickable(List)
+     * @param elements Web elements to check.
+     * @return The first web element found to be clickable.
+     */
     public static ExpectedCondition<WebElement> anyElementToBeClickable(final WebElement... elements) {
         return MoreExpectedConditions.anyElementToBeClickable(Arrays.asList(elements));
     }
 
+    /**
+     * @param elements The list of elements to check.
+     * @return The first element from the list found to be clickable.
+     */
     public static ExpectedCondition<WebElement> anyElementToBeClickable(final List<WebElement> elements) {
         return new ExpectedCondition<WebElement>() {
             public WebElement apply(WebDriver driver) {
@@ -26,8 +35,7 @@ public class MoreExpectedConditions {
                         if (visibleElement != null && visibleElement.isEnabled()) {
                             return visibleElement;
                         }
-                    } catch (StaleElementReferenceException doNotCheck) {
-                        // continue
+                    } catch (StaleElementReferenceException ignored) {
                     }
                 }
                 return null;
