@@ -2,8 +2,6 @@ package com.qualitestgroup.dwt.probono.selenium.tests;
 
 import com.qualitestgroup.dwt.probono.selenium.pageobjects.googlesearch.GoogleSearchHomePage;
 import com.qualitestgroup.dwt.probono.selenium.pageobjects.googlesearch.GoogleSearchResultsPage;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.Reporter;

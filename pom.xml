@@ -70,13 +70,13 @@
                     <!-- redirectTestOutputToFile>true</redirectTestOutputToFile -->
                     <!-- reportFormat>plain</reportFormat -->
                     <reuseForks>true</reuseForks>
-                    <threadCountClasses>4</threadCountClasses>
-                    <threadCountMethods>4</threadCountMethods>
+                    <threadCountClasses>1</threadCountClasses>
+                    <threadCountMethods>1</threadCountMethods>
                     <useUnlimitedThreads>true</useUnlimitedThreads>
                     <properties>
                         <property>
                             <name>dataproviderthreadcount</name>
-                            <value>4</value>
+                            <value>1</value>
                         </property>
                         <property>
                             <name>surefire.testng.verbose</name>

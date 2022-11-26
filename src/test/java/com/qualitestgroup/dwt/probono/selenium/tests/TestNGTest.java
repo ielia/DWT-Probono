@@ -31,6 +31,10 @@ public class TestNGTest implements ITest {
      * Name of the System Property specifying Selenium hub URL.
      */
     public static final String SELENIUM_HUB_URL_PROPERTY = "hub.url";
+    /**
+     * Name of the System Property specifying verbosity.
+     */
+    public static final String VERBOSE_PROPERTY = "verbose";
 
     /**
      * Browser name.
@@ -40,6 +44,10 @@ public class TestNGTest implements ITest {
      * Selenium Hub URL, can be null.
      */
     protected String seleniumHubURL = System.getProperty(SELENIUM_HUB_URL_PROPERTY);
+    /**
+     * Verbose logging. Default: false.
+     */
+    protected boolean verbose;
     /**
      * Current page per test thread.
      */
@@ -64,19 +72,30 @@ public class TestNGTest implements ITest {
      * </ul>
      */
     public TestNGTest() {
-        SLF4JBridgeHandler.removeHandlersForRootLogger();
-        SLF4JBridgeHandler.install();
-        // TODO: Find a better way to do this
-        System.setProperty("webdriver.chrome.silentOutput", "true");
-        // System.setProperty("webdriver.edge.silentOutput", "true");
-        System.setProperty("webdriver.firefox.logfile", "/dev/null");
-        System.setProperty("webdriver.ie.driver.silent", "true");
-        System.setProperty("webdriver.opera.silentOutput", "true");
+        String verbosity = System.getProperty(VERBOSE_PROPERTY);
+        verbose = verbosity != null && !verbosity.equals("0") && !verbosity.equalsIgnoreCase("false");
+        if (!verbose) {
+            SLF4JBridgeHandler.removeHandlersForRootLogger();
+            SLF4JBridgeHandler.install();
+            // TODO: Find a better way to do this
+            System.setProperty("webdriver.chrome.silentOutput", "true");
+            // System.setProperty("webdriver.edge.silentOutput", "true");
+            System.setProperty("webdriver.firefox.logfile", "/dev/null");
+            System.setProperty("webdriver.ie.driver.silent", "true");
+            System.setProperty("webdriver.opera.silentOutput", "true");
+        }
 
         currentPages.set(new HashMap<>(1));
         if (seleniumHubURL == null) {
-            webDriverManager = WebDriverManager.getInstance(browserName);
-            webDriverManager.setup();
+            try {
+                webDriverManager = WebDriverManager.getInstance(browserName);
+                webDriverManager.setup();
+            } catch(Exception exception) {
+                System.err.println("Unable to instantiate driver manager for browser '" + browserName + "'.");
+                System.err.println("Remember to provide the appropriate browser name.");
+                System.err.println("See README.md file for more information.");
+                throw exception;
+            }
         }
     }
 
